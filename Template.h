@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Menu.h"
 
 template <class T>
@@ -61,6 +60,16 @@ public:
 		return std::find(vect.begin(), vect.end(), el) != vect.end();
 	}
 
+	bool find(T el, iter &it)
+	{
+		iter itit;
+		itit = std::find(vect.begin(), vect.end(), el);
+		if (itit == vect.end())
+			return false;
+		it = itit;
+		return true;
+	}
+
 	template<class Predicate>
 	bool find(Predicate &pred, iter &it)
 	{
@@ -91,15 +100,6 @@ public:
 	iter findit(T el)
 	{
 		return std::find(vect.begin(), vect.end(), el);
-	}
-
-	bool find(T el, iter &it) {
-		iter itit;
-		itit = std::find(vect.begin(), vect.end(), el);
-		if (itit == vect.end()) 
-			return false;
-		it = itit;
-		return true;
 	}
 
 	T getElem(int i)
@@ -360,7 +360,7 @@ void getFromConsole(ContainerComp &cont)
 void printToConsole(ContainerComp &cont)
 {
 	if (cont.vectSize() == 0)
-		std::cout << "\nЗаписи отсутствуют\n\n";
+		std::cout << std::endl << "Записи отсутствуют\n" << std::endl;
 	else
 	{
 		std::cout << "код\tмарка\tтип\tчастота\tram\thdd\tвидео\tцена\tколичество\n\n";
@@ -368,65 +368,65 @@ void printToConsole(ContainerComp &cont)
 	}
 }
 
+const int maxLevel = 2;
 
-
-const int MAX_LEVEL = 2;
-
-//рекурсия
-void findComputers(ContainerComp &cont, int level) {
-	int n;
+void Recursion(ContainerComp &cont, int level)
+{
+	int choice;
 	std::string str;
+
+	if (cont.vectSize() <= 1 || level == maxLevel)
+		return;
 
 	if (cont.vectSize() > 0)
 		printToConsole(cont);
 
-	if (cont.vectSize() <= 1 || level == MAX_LEVEL)
-		return;
-
-
 	printMenuFindIndex();
-	n = getInt(0, 10);
-	if (n == 0) throw "exit";//EXIT
-	switch (n)
+	choice = getInt(0, 10);
+	if (choice == 0) throw "exit";
+	switch (choice)
 	{
-	case 1://CODE
+	case 1:
 		std::cout << "\nВведите код: ";
 		cont = cont.findCodeSet(getInt(1));
 		break;
-	case 2://MARK
+	case 2:
 		std::cout << "\nВведите марку: ";
 		std::cin >> str;
 		cont = cont.findMarkSet(str);
 		break;
-	case 3://PROC
+	case 3:
 		std::cout << "\nВведите тип процессора: ";
 		std::cin >> str;
 		cont = cont.findProcessorSet(str);
 		break;
-	case 4://FREQ
+	case 4:
 		std::cout << "\nВведите частоту: ";
 		cont = cont.findFrequencySet(getInt(1));
 		break;
-	case 5://RAM
+	case 5:
 		std::cout << "\nВведите объем оперативной памяти: ";
 		cont = cont.findRAMSet(getInt(1));
 		break;
-	case 6://HDD
+	case 6:
 		std::cout << "\nВведите объем жесткого диска: ";
 		cont = cont.findHDDSet(getInt(1));
 		break;
-	case 7://VM
+	case 7:
 		std::cout << "\nВведите объем памяти видеокарты: ";
 		cont = cont.findVideoSet(getInt(1));
 		break;
-	case 8://VALUE
+	case 8:
 		std::cout << "\nВведите ценность: ";
 		cont = cont.findValueSet(getInt(1));
 		break;
-	case 9://COUNT
+	case 9:
 		std::cout << "\nВведите количество: ";
-		cont = cont.findCountSet(getInt(1));
+		cont = cont.findCountSet(getInt(0));
 		break;
-	case 10://POSITION
-		break;
+	case 10:
+		return;
 	}
+
+	Recursion(cont, level + 1);
+}

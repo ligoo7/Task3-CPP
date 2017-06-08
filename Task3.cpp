@@ -68,199 +68,149 @@ int main()
 					case 2:
 						printMenuFind();
 						choice = getInt(0, 9);
+						if (choice == 0) break;
 						switch (choice)
 						{
 						case 1:
 							cont.sort(CodeComparator());
-							printToConsole(cont);
 							break;
 						case 2:
 							cont.sort(MarkComparator());
-							printToConsole(cont);
 							break;
 						case 3:
 							cont.sort(ProcessorComparator());
-							printToConsole(cont);
 							break;
 						case 4:
 							cont.sort(FrequencyComparator());
-							printToConsole(cont);
 							break;
 						case 5:
 							cont.sort(RAMComparator());
-							printToConsole(cont);
 							break;
 						case 6:
 							cont.sort(HDDComparator());
-							printToConsole(cont);
 							break;
 						case 7:
 							cont.sort(VideoComparator());
-							printToConsole(cont);
 							break;
 						case 8:
 							cont.sort(ValueComparator());
-							printToConsole(cont);
 							break;
 						case 9:
 							cont.sort(CountComparator());
-							printToConsole(cont);
-							break;
-						case 0:
 							break;
 						}
+						printToConsole(cont);
 						break;
 					//подмножество 
 					case 3:
 						printMenuFind();
 						choice = getInt(0, 9);
+						if (choice == 0) break;
 						switch (choice)
 						{
 						case 1:
 							std::cout << "\nВведите код: ";
 							subset = cont.findCodeSet(getInt(1));
-							printToConsole(subset);
 							break;
 						case 2:
 							std::cout << "\nВведите марку: ";
 							std::cin >> str;
 							subset = cont.findMarkSet(str);
-							printToConsole(subset);
 							break;
 						case 3:
 							std::cout << "\nВведите тип процессора: ";
 							std::cin >> str;
 							subset = cont.findProcessorSet(str);
-							printToConsole(subset);
 							break;
 						case 4:
 							std::cout << "\nВведите частоту: ";
 							subset = cont.findFrequencySet(getInt(1));
-							printToConsole(subset);
 							break;
 						case 5:
 							std::cout << "\nВведите объем оперативной памяти: ";
 							subset = cont.findRAMSet(getInt(1));
-							printToConsole(subset);
 							break;
 						case 6:
 							std::cout << "\nВведите объем жесткого диска: ";
 							subset = cont.findHDDSet(getInt(1));
-							printToConsole(subset);
 							break;
 						case 7:
 							std::cout << "\nВведите объем памяти видеокарты: ";
 							subset = cont.findVideoSet(getInt(1));
-							printToConsole(subset);
 							break;
 						case 8:
 							std::cout << "\nВведите ценность: ";
 							subset = cont.findValueSet(getInt(1));
-							printToConsole(subset);
 							break;
 						case 9:
 							std::cout << "\nВведите количество: ";
 							subset = cont.findCountSet(getInt(1));
-							printToConsole(subset);
-							break;
-						case 0:
 							break;
 						}
-
+						printToConsole(subset);
 						break;
 					}
 					break;
 				//редактирование
 				case 3:
-					printMenuFind();
-					choice = getInt(0, 9);
-					//критерий поиска
-					switch (choice)
-					{
-					case 1:
-						std::cout << "\nВведите код: ";
-						subset = cont.findCodeSet(getInt(1));
-						break;
-					case 2:
-						std::cout << "\nВведите марку: ";
-						std::cin >> str;
-						subset = cont.findMarkSet(str);
-						break;
-					case 3:
-						std::cout << "\nВведите тип процессора: ";
-						std::cin >> str;
-						subset = cont.findProcessorSet(str);
-						break;
-					case 4:
-						std::cout << "\nВведите частоту: ";
-						subset = cont.findFrequencySet(getInt(1));
-						break;
-					case 5:
-						std::cout << "\nВведите объем оперативной памяти: ";
-						subset = cont.findRAMSet(getInt(1));
-						break;
-					case 6:
-						std::cout << "\nВведите объем жесткого диска: ";
-						subset = cont.findHDDSet(getInt(1));
-						break;
-					case 7:
-						std::cout << "\nВведите объем памяти видеокарты: ";
-						subset = cont.findVideoSet(getInt(1));
-						break;
-					case 8:
-						std::cout << "\nВведите ценность: ";
-						subset = cont.findValueSet(getInt(1));
-						break;
-					case 9:
-						std::cout << "\nВведите количество: ";
-						subset = cont.findCountSet(getInt(1));
-						break;
-					case 0:
-						break;
-					}
-					if (subset.vectSize() != 0)
-					{
-						printToConsole(subset);
-						printMenuEdit(subset.vectSize() + 1);
-						choice = getInt(0, subset.vectSize() + 1);
-						if (choice == 0) break;
-						it = cont.findit(subset.getElem(choice - 1));
-						while (true)
-						{
-							std::cout << "\nДействия с найденной записью:\n";
-							printMenuAction();
-							choice = getInt(0, 3);
-							if (choice == 0) break;
-							switch (choice)
+					subset = cont;
+					try {
+						Recursion(subset, 0);
+						if (subset.vectSize() == 0)
+							std::cout << "\nНет таких записей\n";
+						else {
+							if (subset.vectSize() > 1)
 							{
-							//вывод
-							case 1:
-								std::cout << *(it);
-								break;
-							//редактирование
-							case 2:
-								try
+								printToConsole(subset);
+								std::cout << "\nВыберите индекс от 1 до " + std::to_string(subset.vectSize()) + " (отмена - 'stop')\n";
+								cont.find(subset.getElem(getInt(1, subset.vectSize()) - 1), it);
+								std::cout << *it << std::endl;
+							}
+							else
+								cont.find(subset.getElem(0), it);
+
+							while (true)
+							{
+								std::cout << "\nДействия с найденной записью:\n";
+								printMenuAction();
+								choice = getInt(0, 3);
+								if (choice == 0) break;
+								switch (choice)
 								{
-									editComputer(*it);
+									//вывод
+								case 1:
+									std::cout << *(it);
+									break;
+									//редактирование
+								case 2:
+									try
+									{
+										editComputer(*it);
+										cont.printToFile(std::fstream(fStorage, std::ios::out));
+										break;
+									}
+									catch (const char*)
+									{
+										if (str == "stop")
+										{
+											cont.printToFile(std::fstream(fStorage, std::ios::out));
+											break;
+										}
+									}
+									break;
+									//удаление
+								case 3:
+									cont.remove(it);
 									cont.printToFile(std::fstream(fStorage, std::ios::out));
 									break;
 								}
-								catch (const char*)
-								{
-									if (str == "stop")
-										break;
-								}
-							//удаление
-							case 3:
-								cont.remove(it);
-								cont.printToFile(std::fstream(fStorage, std::ios::out));
-								break;
+								if (choice == 3) break;
 							}
-							if (choice == 3) break;
 						}
 					}
-					else
-						std::cout << "\nЗапись не найдена\n";
+					catch (const char*)
+					{
+					}
 					break;
 				//просмотр истории
 				case 4:
@@ -282,82 +232,48 @@ int main()
 		else if (choice == 2)
 			while (true)
 			{
-				printMenuFind();
-				choice = getInt(0, 9);
-				if (choice == 0)
+				subset = cont;
+				try
 				{
-					break;
-				}
-				//критерий поиска
-				switch (choice)
-				{
-				case 1:
-					std::cout << "\nВведите код: ";
-					subset = cont.findCodeSet(getInt(1));
-					break;
-				case 2:
-					std::cout << "\nВведите марку: ";
-					std::cin >> str;
-					subset = cont.findMarkSet(str);
-					break;
-				case 3:
-					std::cout << "\nВведите тип процессора: ";
-					std::cin >> str;
-					subset = cont.findProcessorSet(str);
-					break;
-				case 4:
-					std::cout << "\nВведите частоту: ";
-					subset = cont.findFrequencySet(getInt(1));
-					break;
-				case 5:
-					std::cout << "\nВведите нижнюю границу дапазона: ";
-					lower = getInt(1);
-					std::cout << "\nВведите верхнюю границу дапазона: ";
-					higher = getInt(lower + 1);
-					subset = cont.findRAMSetRange(lower, higher);
-					break;
-				case 6:
-					std::cout << "\nВведите объем жесткого диска: ";
-					subset = cont.findHDDSet(getInt(1));
-					break;
-				case 7:
-					std::cout << "\nВведите объем памяти видеокарты: ";
-					subset = cont.findVideoSet(getInt(1));
-					break;
-				case 8:
-					std::cout << "\nВведите нижнюю границу дапазона: ";
-					lower = getInt(1);
-					std::cout << "\nВведите верхнюю границу дапазона: ";
-					higher = getInt(lower + 1);
-					subset = cont.findValueSetRange(lower, higher);
-					break;
-				case 9:
-					std::cout << "\nВведите количество: ";
-					subset = cont.findCountSet(getInt(1));
-					break;
-				}
-				if (subset.vectSize() != 0)
-				{
-					printToConsole(subset);
-					printMenuBuy(subset.vectSize() + 1);
-					choice = getInt(0, subset.vectSize() + 1);
-					if (choice == 0)
-						continue;
-
-					it = cont.findit(subset.getElem(choice - 1));
-					if (!(*it).count == 0)
-					{
-						(*it).count--;
-						f.open(fHistory, std::ios_base::app);
-						f << "Компьютер с кодом " + std::to_string((*it).code) + " продан\n";
-						f.close();
-					}
+					Recursion(subset, 0);
+					if (subset.vectSize() == 0)
+						std::cout << "\nНет подходящих компьютеров\n";
 					else
-						std::cout << "\nНет в наличии\n";
-					cont.printToFile(std::fstream(fStorage, std::ios::out));
+					{
+						if (subset.vectSize() > 1)
+						{
+							printToConsole(subset);
+							std::cout << "\nВыберите индекс от 1 до " + std::to_string(subset.vectSize()) + " (отмена - 'stop')\n";
+							cont.find(subset.getElem(getInt(1, subset.vectSize()) - 1), it);
+							std::cout << *it << std::endl;
+						}
+						else
+						{
+							cont.find(subset.getElem(0), it);
+							printToConsole(subset);
+						}
+
+						if (!(*it).count == 0)
+						{
+							printToConsole(subset);
+							printMenuBuy();
+							choice = getInt(0, 1);
+							if (choice == 0) continue;
+							(*it).count--;
+							f.open(fHistory, std::ios_base::app);
+							f << "Компьютер с кодом " + std::to_string((*it).code) + " продан\n";
+							f.close();
+							std::cout << "\nКуплено!\n\n";
+							cont.printToFile(std::fstream(fStorage, std::ios::out));
+						}
+						else
+							std::cout << "\nНет в наличии\n\n";
+					}
 				}
-				else
-					std::cout << "\nНет подходящих компьютеров\n";
+				catch (const char*) 
+				{ 
+					break; 
+				}
 			}
 		//выход
 		else
