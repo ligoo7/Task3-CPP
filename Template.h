@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Menu.h"
+
 template <class T>
 class Container
 {
@@ -89,6 +91,15 @@ public:
 	iter findit(T el)
 	{
 		return std::find(vect.begin(), vect.end(), el);
+	}
+
+	bool find(T el, iter &it) {
+		iter itit;
+		itit = std::find(vect.begin(), vect.end(), el);
+		if (itit == vect.end()) 
+			return false;
+		it = itit;
+		return true;
 	}
 
 	T getElem(int i)
@@ -349,10 +360,73 @@ void getFromConsole(ContainerComp &cont)
 void printToConsole(ContainerComp &cont)
 {
 	if (cont.vectSize() == 0)
-		std::cout << std::endl << "Записи отсутствуют\n" << std::endl;
+		std::cout << "\nЗаписи отсутствуют\n\n";
 	else
 	{
 		std::cout << "код\tмарка\tтип\tчастота\tram\thdd\tвидео\tцена\tколичество\n\n";
 		copy(cont.vectBegin(), cont.vectEnd(), std::ostream_iterator<Computer>(std::cout, "\n"));
 	}
 }
+
+
+
+const int MAX_LEVEL = 2;
+
+//рекурсия
+void findComputers(ContainerComp &cont, int level) {
+	int n;
+	std::string str;
+
+	if (cont.vectSize() > 0)
+		printToConsole(cont);
+
+	if (cont.vectSize() <= 1 || level == MAX_LEVEL)
+		return;
+
+
+	printMenuFindIndex();
+	n = getInt(0, 10);
+	if (n == 0) throw "exit";//EXIT
+	switch (n)
+	{
+	case 1://CODE
+		std::cout << "\nВведите код: ";
+		cont = cont.findCodeSet(getInt(1));
+		break;
+	case 2://MARK
+		std::cout << "\nВведите марку: ";
+		std::cin >> str;
+		cont = cont.findMarkSet(str);
+		break;
+	case 3://PROC
+		std::cout << "\nВведите тип процессора: ";
+		std::cin >> str;
+		cont = cont.findProcessorSet(str);
+		break;
+	case 4://FREQ
+		std::cout << "\nВведите частоту: ";
+		cont = cont.findFrequencySet(getInt(1));
+		break;
+	case 5://RAM
+		std::cout << "\nВведите объем оперативной памяти: ";
+		cont = cont.findRAMSet(getInt(1));
+		break;
+	case 6://HDD
+		std::cout << "\nВведите объем жесткого диска: ";
+		cont = cont.findHDDSet(getInt(1));
+		break;
+	case 7://VM
+		std::cout << "\nВведите объем памяти видеокарты: ";
+		cont = cont.findVideoSet(getInt(1));
+		break;
+	case 8://VALUE
+		std::cout << "\nВведите ценность: ";
+		cont = cont.findValueSet(getInt(1));
+		break;
+	case 9://COUNT
+		std::cout << "\nВведите количество: ";
+		cont = cont.findCountSet(getInt(1));
+		break;
+	case 10://POSITION
+		break;
+	}

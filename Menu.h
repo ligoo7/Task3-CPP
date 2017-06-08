@@ -27,6 +27,23 @@ void printMenuFind()
 	std::cout << "0. Отмена\n\n";
 }
 
+//критерий поиска
+void printMenuFindIndex()
+{
+	std::cout << "\nНайти по:\n";
+	std::cout << "1. Коду\n";
+	std::cout << "2. Марке\n";
+	std::cout << "3. Типу процессора\n";
+	std::cout << "4. Частоте\n";
+	std::cout << "5. Объему ОЗУ\n";
+	std::cout << "6. Объему жесткого диска\n";
+	std::cout << "7. Памяти видеокарты\n";
+	std::cout << "8. Ценности\n";
+	std::cout << "9. Количеству\n";
+	std::cout << "10. По индексу\n";
+	std::cout << "0. Отмена\n\n";
+}
+
 //действия с записью
 void printMenuAction()
 {
