@@ -369,6 +369,7 @@ void printToConsole(ContainerComp &cont)
 }
 
 const int maxLevel = 2;
+int lower, higher;
 
 void Recursion(ContainerComp &cont, int level)
 {
@@ -405,8 +406,11 @@ void Recursion(ContainerComp &cont, int level)
 		cont = cont.findFrequencySet(getInt(1));
 		break;
 	case 5:
-		std::cout << "\n¬ведите объем оперативной пам€ти: ";
-		cont = cont.findRAMSet(getInt(1));
+		std::cout << "\n¬ведите нижнюю границу дапазона: ";
+		lower = getInt(1);
+		std::cout << "\n¬ведите верхнюю границу дапазона: ";
+		higher = getInt(lower + 1);
+		cont = cont.findRAMSetRange(lower, higher);
 		break;
 	case 6:
 		std::cout << "\n¬ведите объем жесткого диска: ";
@@ -417,8 +421,11 @@ void Recursion(ContainerComp &cont, int level)
 		cont = cont.findVideoSet(getInt(1));
 		break;
 	case 8:
-		std::cout << "\n¬ведите ценность: ";
-		cont = cont.findValueSet(getInt(1));
+		std::cout << "\n¬ведите нижнюю границу дапазона: ";
+		lower = getInt(1);
+		std::cout << "\n¬ведите верхнюю границу дапазона: ";
+		higher = getInt(lower + 1);
+		cont = cont.findValueSetRange(lower, higher);
 		break;
 	case 9:
 		std::cout << "\n¬ведите количество: ";
