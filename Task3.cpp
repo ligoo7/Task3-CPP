@@ -12,7 +12,6 @@
 
 #include "stdafx.h"
 #include "Computer.h"
-#include "Menu.h"
 #include "Template.h"
 
 
@@ -22,10 +21,8 @@ int main()
 	ContainerComp cont = ContainerComp();
 	ContainerComp subset = ContainerComp();
 	std::vector<Computer>::iterator it;
-	std::string FName;
 	std::string str;
 	int choice, lower, higher;
-
 	std::fstream f;
 	std::string fStorage = "input.txt";
 	std::string fHistory = "history.txt";
